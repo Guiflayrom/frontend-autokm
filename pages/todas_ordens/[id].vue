@@ -61,50 +61,63 @@
               class="overflow-x-auto"
               :headers="headers"
               :items="dataT"
-              item-key="id"
+              item-key="numero_nota"
               hide-default-footer
             >
-              <template v-slot:item.actions="{ item }">
-                <v-tooltip text="Visualizar" location="top">
-                  <template v-slot:activator="{ props }">
-                    <v-icon
-                      class="me-2 cursor-pointer"
-                      @click="navigateTo('/ordem/' + item.id)"
-                      size="small"
-                      v-bind="props"
-                    >
-                      mdi-eye
-                    </v-icon>
-                  </template>
-                </v-tooltip>
-              </template>
-              <template v-slot:item.valor_nota="{ item }">
-                R${{ item.valor_nota.replace(".", ",") }}
-              </template>
-              <template v-slot:item.parcelas="{ item }">
-                <v-tooltip
-                  :text="
-                    item.parcelas.find((item) => item.situacao == 'Atrasado')
-                      ? 'Você possui parcela(s) em atraso!'
-                      : 'Não há parcelas em atraso!'
-                  "
-                  location="top"
+              <!-- Custom row rendering to add @click event -->
+              <template v-slot:item="{ item }">
+                <tr
+                  @click.stop="navigateTo('/ordem/' + item.id)"
+                  class="cursor-pointer"
                 >
-                  <template v-slot:activator="{ props }">
-                    <div
-                      :class="
+                  <td align="center">{{ item.numero_nota }}</td>
+                  <td align="center">{{ item.data_emissao }}</td>
+                  <td align="center">
+                    <v-tooltip
+                      :text="
                         item.parcelas.find(
-                          (item) => item.situacao == 'Atrasado',
+                          (parcela) => parcela.situacao === 'Atrasado',
                         )
-                          ? 'bg-red-500 mx-10 text-white font-bold'
-                          : 'bg-green-500 mx-10 text-white font-bold'
+                          ? 'Você possui parcela(s) em atraso!'
+                          : 'Não há parcelas em atraso!'
                       "
-                      v-bind="props"
+                      location="top"
                     >
-                      {{ item.parcelas.length }}
-                    </div>
-                  </template>
-                </v-tooltip>
+                      <template v-slot:activator="{ props }">
+                        <div
+                          :class="
+                            item.parcelas.find(
+                              (parcela) => parcela.situacao === 'Atrasado',
+                            )
+                              ? 'bg-red-500 mx-10 text-white font-bold'
+                              : 'bg-green-500 mx-10 text-white font-bold'
+                          "
+                          v-bind="props"
+                          align="center"
+                        >
+                          {{ item.parcelas.length }}
+                        </div>
+                      </template>
+                    </v-tooltip>
+                  </td>
+                  <td align="center">
+                    R${{ item.valor_nota?.replace(".", ",") }}
+                  </td>
+                  <td align="center">
+                    <v-tooltip text="Visualizar" location="top">
+                      <template v-slot:activator="{ props }">
+                        <v-icon
+                          class="me-2 cursor-pointer"
+                          @click.stop="navigateTo('/ordem/' + item.id)"
+                          size="small"
+                          v-bind="props"
+                        >
+                          mdi-eye
+                        </v-icon>
+                      </template>
+                    </v-tooltip>
+                  </td>
+                </tr>
               </template>
             </VDataTable>
           </CardAutokm></VCol

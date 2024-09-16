@@ -155,12 +155,10 @@ onBeforeMount(async () => {
       method: "GET",
     })
     .then((res) => {
-      console.log(res);
       info_carro.value = {
         nome_carro: res.nome_carro,
         imagens_carro: res.Imagens.map((item) => item.src),
       };
-
       info_parcelas.value = res.parcelas;
       info_destinatario.value = { nome: res.destinatario, cpf_cnpj: res.cnpj };
       info_nota.value = {

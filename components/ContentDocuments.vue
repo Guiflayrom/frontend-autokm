@@ -39,7 +39,7 @@
           class="font-light text-xs mt-1; cursor-pointer"
           @click="openPage(document.file_url)"
         >
-          {{ document.size }} Mb
+          {{ document.size }} KB
         </div>
         <div style="display: flex">
           <v-icon
@@ -57,9 +57,7 @@
 <script setup lang="ts">
 import type { DataLinkDocument } from "../types/interfaces";
 
-onMounted(() => {
-  console.log(data.value);
-});
+onMounted(() => {});
 
 function openPage(page: string) {
   window.open(page);

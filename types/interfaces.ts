@@ -31,6 +31,8 @@ export interface Parcela {
   vencimento: string;
   situacao: string;
   valor: string;
+  file_url: string;
+  numeracao_boleto: string;
 }
 
 export type InfoParcelas = Parcela[];
